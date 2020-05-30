@@ -1,0 +1,40 @@
+---
+title: "bus_count"
+author: "Nan Tang"
+date: "January 21, 2019"
+output: html_document
+---
+
+```{r}
+library(readr)
+library(lubridate)
+library(dplyr)
+
+Bus_Count <- read_csv("C:/Users/tangn/Google Drive/STAT 341/HW2/Bus_Count_StevensWay.csv", 
+                                 col_names = FALSE, col_types = cols(X2 = col_time(format = "%H:%M")))
+colnames(Bus_Count) <- c("Line", "Time")
+Line_factor <- as.factor(Bus_Count$Line)
+
+
+levels(Line_factor)
+
+waiting_time <- c(0)
+for(i in 1:49){
+  temp <- Bus_Count$Time[i+1] - Bus_Count$Time[i]
+  waiting_time <- c(waiting_time, temp)
+}
+waiting_time
+
+mean(waiting_time)
+
+mean(waiting_time[1:20])
+
+var(waiting_time)/60^2
+
+var(waiting_time[1:20])/60^2
+
+waiting_time_factor <- as.factor(waiting_time)
+
+Bus_Count = cbind(Bus_Count, waiting_time)
+
+```
